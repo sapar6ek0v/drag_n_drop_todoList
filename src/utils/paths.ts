@@ -1,4 +1,4 @@
 export enum Paths {
-  PROJECTS = 'PROJECTS',
-  TODOS = 'TODOS',
+  PROJECTS = '/projects',
+  TODOS = '/todos',
 }

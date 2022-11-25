@@ -7,7 +7,7 @@ const Todos: FC = () => {
       <Helmet>
         <title>Todos</title>
         <meta name='description' content='All Todos' />
-        <link ref='canonical' href='/todos' />
+        <link rel='canonical' href='/todos' />
       </Helmet>
       <p>Todos</p>
     </>

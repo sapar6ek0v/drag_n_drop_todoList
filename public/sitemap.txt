@@ -1,0 +1,3 @@
+https://up-trader-todo-list.vercel.app/
+https://up-trader-todo-list.vercel.app/projects
+https://up-trader-todo-list.vercel.app/todos
