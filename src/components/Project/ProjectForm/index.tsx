@@ -18,6 +18,7 @@ const ProjectForm: FC<Props> = ({ onSubmit, isLoading, defaultValues }) => {
     if (!projectName) return;
 
     onSubmit({ name: projectName });
+    setProjectName('');
   };
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,13 @@ const ProjectForm: FC<Props> = ({ onSubmit, isLoading, defaultValues }) => {
             <span>Название проекта </span>
             <Asterisk size={10} strokeWidth={1.5} color={'red'} />
           </Label>
-          <Input onChange={handleOnChange} type='text' placeholder='Название проекта' id='project' />
+          <Input
+            value={projectName}
+            onChange={handleOnChange}
+            type='text'
+            placeholder='Название проекта'
+            id='project'
+          />
         </div>
         <Button type='submit' disabled={!projectName || isLoading}>
           {defaultValues ? 'Сохранить' : 'Создать'}

@@ -10,7 +10,7 @@ type Props = {
 };
 
 const ProjectCard: FC<Props> = ({ project }) => {
-  const [deleteProject, { isLoading }] = useDeleteProjectMutation();
+  const [deleteProject, { isLoading: isDeleteLoading }] = useDeleteProjectMutation();
 
   const [isUpdateProject, setIsUpdateProject] = useState<boolean>(false);
 
@@ -29,15 +29,21 @@ const ProjectCard: FC<Props> = ({ project }) => {
   return (
     <>
       <Wrapper>
-        <Title>{project.name}</Title>
-        <ButtonGroup>
-          <ButtonDelete onClick={handleDeleteProject} disabled={isLoading}>
-            <TrashX size={30} strokeWidth={1.5} color={'#ee4758'} />
-          </ButtonDelete>
-          <ButtonEdit onClick={handleUpdateProject}>
-            <Edit size={20} strokeWidth={2} color={'rgba(128, 248, 174, 1)'} />
-          </ButtonEdit>
-        </ButtonGroup>
+        {
+          isDeleteLoading ?
+            <div>Удаление...</div> :
+            <>
+              <Title>{project.name}</Title>
+              <ButtonGroup>
+                <ButtonDelete onClick={handleDeleteProject} disabled={isDeleteLoading}>
+                  <TrashX size={30} strokeWidth={1.5} color={'#ee4758'} />
+                </ButtonDelete>
+                <ButtonEdit onClick={handleUpdateProject}>
+                  <Edit size={20} strokeWidth={2} color={'rgba(128, 248, 174, 1)'} />
+                </ButtonEdit>
+              </ButtonGroup>
+            </>
+        }
       </Wrapper>
       {
         isUpdateProject &&

@@ -56,6 +56,7 @@ export const Button = styled.button`
   font-weight: 600;
   outline: 0;
   padding: 5px 15px;
+  margin: 0 auto;
   text-align: center;
   transition: all 0.3s linear;
   user-select: none;

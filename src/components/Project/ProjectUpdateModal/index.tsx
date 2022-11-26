@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { useUpdateProjectMutation } from '../../../store/apis/projects';
+import { FC, useMemo } from 'react';
+import { useGetProjectByIdQuery, useUpdateProjectMutation } from '../../../store/apis/projects';
 import { ProjectInputValue } from '../../../store/apis/projects/types';
 import Modal from '../../Modal';
 import ProjectForm from '../ProjectForm';
@@ -11,7 +11,8 @@ type Props = {
 };
 
 const ProjectUpdateModal: FC<Props> = ({ isOpen, onClose, projectId }) => {
-  const [updateProject, { isLoading }] = useUpdateProjectMutation();
+  const [updateProject, { isLoading: isUpdateLoading }] = useUpdateProjectMutation();
+  const { data: project, isLoading } = useGetProjectByIdQuery(projectId);
 
   const handleSubmit = async (value: ProjectInputValue) => {
     try {
@@ -22,9 +23,21 @@ const ProjectUpdateModal: FC<Props> = ({ isOpen, onClose, projectId }) => {
     };
   };
 
+  const defaultValues = useMemo(() => {
+    if (project) {
+      return {
+        name: project?.name
+      }
+    }
+  }, [project])
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} >
-      <ProjectForm onSubmit={handleSubmit} isLoading={isLoading} />
+      {
+        (!isLoading && !!defaultValues) ?
+          <ProjectForm onSubmit={handleSubmit} isLoading={isUpdateLoading} defaultValues={defaultValues} />
+          : <div>Загрузка..</div>
+      }
     </Modal>
   );
 };
