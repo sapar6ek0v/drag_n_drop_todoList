@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import FullPageLoader from '../../components/FullPageLoader';
 import ProjectCard from '../../components/Project/ProjectCard';
 import ProjectCreateModal from '../../components/Project/ProjectCreateModal';
 import SearchForm from '../../components/SearchForm';
+import { ContentWrapper, Grid, Paper } from '../../components/styles';
 import { useGetAllQuery } from '../../store/apis/projects';
-import { Grid, ContentWrapper, Paper } from './styles';
 
 const Projects: FC = () => {
-  const { data: projects } = useGetAllQuery();
+  const { data: projects, isLoading } = useGetAllQuery();
 
   const [isOpen, setIsOpenModal] = useState<boolean>(false);
 
@@ -23,16 +24,20 @@ const Projects: FC = () => {
     <>
       <Helmet>
         <title>Projects</title>
-        <meta name='description' content='All Todos' />
+        <meta name='description' content='All Projects' />
         <link rel='canonical' href='/projects' />
       </Helmet>
       <ContentWrapper>
         <SearchForm handleCreate={handleOpenModal} />
         <Paper>
           <Grid>
-            {projects?.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+            {
+              (!isLoading && !!projects) ?
+                projects.map((project) => (
+                  <ProjectCard key={project.id} project={project} />
+                )) :
+                <FullPageLoader />
+            }
           </Grid>
         </Paper>
       </ContentWrapper>

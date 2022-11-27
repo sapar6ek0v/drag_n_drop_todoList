@@ -1,10 +1,29 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const ContentWrapper = styled.div`
+  /* position: relative; */
+  padding: 50px 0;
+`;
+
+export const Paper = styled.div`
+  margin-top: 90px;
+`;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 2vw;
+`;
+
+type StackProps = {
+  spacing: number;
+};
+
+export const Stack = styled.div`
   padding-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: ${(props: StackProps) => props.spacing}px;
 `;
 
 export const FormTitle = styled.h4`
@@ -12,7 +31,7 @@ export const FormTitle = styled.h4`
   line-height: 20px;
   font-weight: 700;
   text-align: center;
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 0;
 `;
 
@@ -21,20 +40,43 @@ export const Label = styled.label`
   line-height: 20px;
   padding-left: 4px;
   font-weight: 500;
-  color: #000;
+  color: #221f1f;
   display: flex;
   gap: 3px;
   margin-bottom: 4px;
 `;
 
 export const Input = styled.input`
-  width: 96%;
-  font-size: 16px;
+  width: 95%;
+  font-size: 14px;
   line-height: 20px;
-  color: #000;
+  color: rgb(0, 0, 0);
+  padding: 7px 10px;
+  border-radius: 2px;
+  border: 1px solid #474747;
+  transition: all 0.4s linear;
+
+  &:focus {
+    outline: 0;
+    border-color: rgba(249, 131, 255, 1);
+  }
+
+  &:hover {
+    border-color: rgba(249, 131, 255, 1);
+  }
+`;
+
+export const TextArea = styled.textarea`
+  width: 94%;
+  height: 100px;
+  max-height: 100px;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(0, 0, 0);
   padding: 5px 10px;
-  border-radius: 8px;
-  border: 1px solid #000;
+  border-radius: 2px;
+  border: 1px solid #474747;
   transition: all 0.4s linear;
 
   &:focus {

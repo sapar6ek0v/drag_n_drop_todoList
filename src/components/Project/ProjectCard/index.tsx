@@ -1,9 +1,12 @@
 import { FC, useState } from 'react';
-import { TrashX, Edit } from 'tabler-icons-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDeleteProjectMutation } from '../../../store/apis/projects';
 import { Project } from '../../../store/apis/projects/types';
+import { Paths } from '../../../utils/paths';
+import ButtonDelete from '../../Buttons/ButtonDelete';
+import ButtonEdit from '../../Buttons/ButtonEdit';
 import ProjectUpdateModal from '../ProjectUpdateModal';
-import { ButtonDelete, ButtonEdit, ButtonGroup, Title, Wrapper } from './styles';
+import { ButtonGroup, Title, Wrapper } from './styles';
 
 type Props = {
   project: Project
@@ -12,6 +15,7 @@ type Props = {
 const ProjectCard: FC<Props> = ({ project }) => {
   const [deleteProject, { isLoading: isDeleteLoading }] = useDeleteProjectMutation();
 
+  const navigate = useNavigate();
   const [isUpdateProject, setIsUpdateProject] = useState<boolean>(false);
 
   const handleDeleteProject = async () => {
@@ -26,25 +30,27 @@ const ProjectCard: FC<Props> = ({ project }) => {
     setIsUpdateProject(true);
   };
 
+  const handleNavigate = () => {
+    navigate(Paths.TODOS, { state: { id: project.id } });
+  };
+
   return (
     <>
-      <Wrapper>
-        {
-          isDeleteLoading ?
-            <div>Удаление...</div> :
-            <>
-              <Title>{project.name}</Title>
-              <ButtonGroup>
-                <ButtonDelete onClick={handleDeleteProject} disabled={isDeleteLoading}>
-                  <TrashX size={30} strokeWidth={1.5} color={'#ee4758'} />
-                </ButtonDelete>
-                <ButtonEdit onClick={handleUpdateProject}>
-                  <Edit size={20} strokeWidth={2} color={'rgba(128, 248, 174, 1)'} />
-                </ButtonEdit>
-              </ButtonGroup>
-            </>
-        }
-      </Wrapper>
+      <Link to={`/${project.id}/todos`}>
+        <Wrapper>
+          {
+            isDeleteLoading ?
+              <div>Удаление...</div> :
+              <>
+                <Title>{project.name}</Title>
+                <ButtonGroup>
+                  <ButtonDelete onClick={handleDeleteProject} disabled={isDeleteLoading} />
+                  <ButtonEdit onClick={handleUpdateProject} />
+                </ButtonGroup>
+              </>
+          }
+        </Wrapper>
+      </Link>
       {
         isUpdateProject &&
         <ProjectUpdateModal

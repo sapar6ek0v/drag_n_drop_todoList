@@ -6,6 +6,7 @@ import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { baseApi } from './store';
+import 'bear-react-datepicker/dist/index.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

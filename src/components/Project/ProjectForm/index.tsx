@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Asterisk } from 'tabler-icons-react';
 import { ProjectInputValue } from '../../../store/apis/projects/types';
-import { Button, FormTitle, Input, Label, Wrapper } from './styles';
+import { Button, FormTitle, Input, Label, Stack } from '../../styles';
 
 type Props = {
   onSubmit: (value: ProjectInputValue) => void;
@@ -28,7 +28,7 @@ const ProjectForm: FC<Props> = ({ onSubmit, isLoading, defaultValues }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Wrapper>
+      <Stack spacing={20}>
         <FormTitle>{defaultValues ? 'Обновить Проект' : 'Создать Проект'}</FormTitle>
         <div>
           <Label htmlFor='project'>
@@ -46,7 +46,7 @@ const ProjectForm: FC<Props> = ({ onSubmit, isLoading, defaultValues }) => {
         <Button type='submit' disabled={!projectName || isLoading}>
           {defaultValues ? 'Сохранить' : 'Создать'}
         </Button>
-      </Wrapper>
+      </Stack>
     </form>
   );
 };

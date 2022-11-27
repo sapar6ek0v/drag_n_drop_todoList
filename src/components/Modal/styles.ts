@@ -4,12 +4,12 @@ export const ModalWrapper = styled.div`
   background: rgba(0, 0, 0, 0.7);
   z-index: 10000;
   width: 100%;
-  height: calc(100% - 80px);
+  height: calc(100% - 160px);
   position: absolute;
   top: 0;
   left: 0;
   overflow: auto;
-  padding-top: 80px;
+  padding: 80px 0;
 `;
 
 export const ModalContentWrapper = styled.div`
@@ -18,7 +18,7 @@ export const ModalContentWrapper = styled.div`
   margin: 0 auto;
   padding: 40px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-radius: 18px;
+  border-radius: 2px;
   position: relative;
 `;
 
