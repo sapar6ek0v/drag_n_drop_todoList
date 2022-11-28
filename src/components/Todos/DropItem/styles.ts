@@ -112,3 +112,28 @@ export const ViewPriority = styled.div`
     color: #cdf0ea;
   }
 `;
+
+export const CreateTitle = styled.a`
+  display: inline-block;
+  color: #0002a1b3;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s linear;
+  text-decoration: underline;
+
+  &:hover {
+    color: #0002a1;
+  }
+`;
+
+type ListStackProps = {
+  spacing: number;
+};
+
+export const ListStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${(props: ListStackProps) => props.spacing}px;
+`;

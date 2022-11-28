@@ -69,3 +69,9 @@ export type SubtaskInputValue = {
   todo: string;
   isCompleted: boolean;
 };
+
+export type SingleSubtaskValue = {
+  id: string;
+  todoId: string;
+  projectId: string;
+};

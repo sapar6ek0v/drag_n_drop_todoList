@@ -128,3 +128,12 @@ export const Button = styled.button`
     cursor: not-allowed;
   }
 `;
+
+type LoaderWrapperProps = {
+  minHeight: number;
+};
+
+export const LoaderWrapper = styled.div`
+  position: relative;
+  min-height: ${(props: LoaderWrapperProps) => props.minHeight}px;
+`;

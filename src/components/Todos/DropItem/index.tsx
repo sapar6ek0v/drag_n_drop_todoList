@@ -8,7 +8,9 @@ import { TodoStatus } from "../../../store/apis/todos/types";
 import ButtonDelete from "../../Buttons/ButtonDelete";
 import ButtonEdit from "../../Buttons/ButtonEdit";
 import FullPageLoader from "../../FullPageLoader";
+import SubtaskCreateModal from "../SubtaskCreateModal";
 import TodoUpdateModal from "../TodoUpdateModal";
+import SubtaskListItem from "../SubtaskListItem";
 import {
   DateView,
   Description,
@@ -19,6 +21,8 @@ import {
   ViewPriority,
   Wrapper,
   TextGroup,
+  CreateTitle,
+  ListStack,
 } from "./styles";
 
 type Props = {
@@ -30,8 +34,9 @@ type Props = {
 
 const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [isSubtaskCreate, setIsSubtaskCreate] = useState<boolean>(false);
 
   const [deleteTodo, { isLoading: isDeleteLoading }] = useDeleteTodoMutation();
 
@@ -76,21 +81,21 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
   });
 
   const handleOpenModal = () => {
-    setIsOpenModal(true);
+    setIsOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsOpenModal(false);
+    setIsOpen(false);
   };
 
   drag(drop(ref));
 
   const handleOpenEditModal = () => {
-    setIsUpdateModalOpen(true);
+    setIsUpdate(true);
   };
 
   const handleCloseEditModal = () => {
-    setIsUpdateModalOpen(false);
+    setIsUpdate(false);
   };
 
   const handleDelete = async () => {
@@ -99,6 +104,14 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleOpenSubtaskCreateModal = () => {
+    setIsSubtaskCreate(true);
+  };
+
+  const handleCloseSubtaskCreateModal = () => {
+    setIsSubtaskCreate(false);
   };
 
   return (
@@ -127,6 +140,14 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
                 <Header>{item.header}</Header>
                 <Description>{item.description}</Description>
               </TextGroup>
+              <ListStack spacing={item.subtasks.length ? 10 : 0} onClick={(e) => e.stopPropagation()}>
+                <CreateTitle onClick={handleOpenSubtaskCreateModal}>Создать подзадачу +</CreateTitle>
+                {
+                  item.subtasks.length ?
+                    <SubtaskListItem subtasks={item.subtasks} projectId={item.projectId} />
+                    : null
+                }
+              </ListStack>
               <Group justify='space-between'>
                 <DateView>{dayjs(item.expirationDate).format('MMM D')}</DateView>
                 <Group gap={10} onClick={(e) => e.stopPropagation()}>
@@ -137,8 +158,17 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
             </>
         }
       </Wrapper>
-      {isOpenModal && <TodoUpdateModal isOpen={isOpenModal} onClose={handleCloseModal} />}
-      {isUpdateModalOpen && <TodoUpdateModal isOpen={isUpdateModalOpen} onClose={handleCloseEditModal} />}
+      {isOpen && <TodoUpdateModal isOpen={isOpen} onClose={handleCloseModal} />}
+      {isUpdate && <TodoUpdateModal isOpen={isUpdate} onClose={handleCloseEditModal} />}
+      {
+        isSubtaskCreate &&
+        <SubtaskCreateModal
+          isOpen={isSubtaskCreate}
+          onClose={handleCloseSubtaskCreateModal}
+          todoId={item.id}
+          projectId={item.projectId}
+        />
+      }
     </>
   );
 };

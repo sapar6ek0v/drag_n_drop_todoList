@@ -9,7 +9,7 @@ import CustomSelect from '../../CustomSelect';
 import FileUpload from '../../FileUpload';
 
 type Props = {
-  onSubmit: (value: TodoInputValue) => void;
+  onSubmit: (value: TodoInputValue) => Promise<void>;
   isLoading: boolean;
   defaultValues?: TodoInputValue;
   projectId: string;
@@ -22,7 +22,6 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
   const [header, setHeader] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [expirationDate, setExpirationDate] = useState(today);
-  // const [workingTime, setWorkingTime] = useState();
   const [priority, setPriority] = useState<string>('');
   const [status, setStatus] = useState<string>('Queue');
   const [files, setFiles] = useState<ImageType[]>([]);
@@ -30,20 +29,24 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (!header) return;
+    if (!header || !todoNumber || !expirationDate || !priority || !status) return;
 
-    const newTodo: TodoInputValue = {
-      projectId,
-      number: todoNumber,
-      header,
-      description,
-      priority,
-      files,
-      status,
-      expirationDate: new Date(expirationDate).getTime(),
-    };
+    try {
+      const newTodo: TodoInputValue = {
+        projectId,
+        number: todoNumber,
+        header,
+        description,
+        priority,
+        files,
+        status,
+        expirationDate: new Date(expirationDate).getTime(),
+      };
 
-    onSubmit(newTodo);
+      await onSubmit(newTodo);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const disabled = !header || isLoading || !todoNumber || !priority || !status || !expirationDate;

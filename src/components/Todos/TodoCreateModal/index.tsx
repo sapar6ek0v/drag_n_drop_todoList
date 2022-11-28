@@ -3,8 +3,8 @@ import { useCreateTodoMutation } from '../../../store/apis/todos';
 import { TodoInputValue } from '../../../store/apis/todos/types';
 import FullPageLoader from '../../FullPageLoader';
 import Modal from '../../Modal';
+import { LoaderWrapper } from '../../styles';
 import TodoForm from '../TodoForm';
-import { LoaderWrapper } from './styles';
 
 type Props = {
   isOpen: boolean;
@@ -13,11 +13,11 @@ type Props = {
 };
 
 const TodoCreateModal: FC<Props> = ({ isOpen, onClose, projectId }) => {
-  const [createProject, { isLoading }] = useCreateTodoMutation();
+  const [createTodo, { isLoading }] = useCreateTodoMutation();
 
   const handleSubmit = async (value: TodoInputValue) => {
     try {
-      await createProject(value);
+      await createTodo(value);
       onClose();
     } catch (error) {
       console.log(error);
@@ -26,7 +26,7 @@ const TodoCreateModal: FC<Props> = ({ isOpen, onClose, projectId }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} >
-      <LoaderWrapper>
+      <LoaderWrapper minHeight={500}>
         {
           isLoading ?
             <FullPageLoader />

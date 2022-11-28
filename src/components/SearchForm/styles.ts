@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FixedContainer = styled.div`
   position: fixed;
-  z-index: 10;
+  z-index: 1;
   top: 50px;
   left: 0;
   right: 0;

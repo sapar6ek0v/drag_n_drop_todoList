@@ -6,6 +6,7 @@ import {
   TodoInputValue,
   Subtask,
   SubtaskInputValue,
+  SingleSubtaskValue,
 } from './types';
 
 const apiTodosTag = baseApi.enhanceEndpoints({ addTagTypes: ['Todos'] });
@@ -49,7 +50,7 @@ export const todosApi = apiTodosTag.injectEndpoints({
       invalidatesTags: [{ type: 'Todos', id: 'LIST' }],
     }),
 
-    createSubtask: builder.mutation<Subtask, SubtaskInputValue>({
+    createSubtask: builder.mutation<Subtask, Omit<SubtaskInputValue, 'id'>>({
       query(value) {
         return {
           url: `projects/${value.projectId}/todos/${value.todoId}/subtask`,
@@ -57,6 +58,33 @@ export const todosApi = apiTodosTag.injectEndpoints({
           body: value,
         };
       },
+      invalidatesTags: [{ type: 'Todos', id: 'LIST' }],
+    }),
+
+    updateSubtask: builder.mutation<Subtask, SubtaskInputValue>({
+      query(value) {
+        return {
+          url: `projects/${value.projectId}/todos/${value.todoId}/subtask/${value.id}`,
+          method: 'PUT',
+          body: value,
+        };
+      },
+      invalidatesTags: [{ type: 'Todos', id: 'LIST' }],
+    }),
+
+    getSingleSubtask: builder.query<Subtask, SingleSubtaskValue>({
+      query: (value) => `/projects/${value.projectId}/todos/${value.todoId}/subtask/${value.id}`,
+      providesTags: [{ type: 'Todos', id: 'LIST' }],
+    }),
+
+    deleteSubtask: builder.mutation<Subtask, SingleSubtaskValue>({
+      query(value) {
+        return {
+          url: `/projects/${value.projectId}/todos/${value.todoId}/subtask/${value.id}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: [{ type: 'Todos', id: 'LIST' }],
     }),
   }),
 });
@@ -67,4 +95,7 @@ export const {
   useChangeTodoStatusMutation,
   useDeleteTodoMutation,
   useCreateSubtaskMutation,
+  useUpdateSubtaskMutation,
+  useGetSingleSubtaskQuery,
+  useDeleteSubtaskMutation,
 } = todosApi;
