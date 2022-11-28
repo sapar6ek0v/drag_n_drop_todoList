@@ -4,7 +4,7 @@ import { ImageType } from './types';
 export const cloudinaryApi = createApi({
   reducerPath: 'cloudinaryApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://api.cloudinary.com/v1_1/dzfibdx5d/image/upload`,
+    baseUrl: process.env.REACT_APP_CLOUDINARY_URL,
   }),
   endpoints: (builder) => ({
     upload: builder.mutation<ImageType, any>({

@@ -7,9 +7,10 @@ import CustomDatePicker from '../../CustomDatePicker';
 import { Button, FormTitle, Input, Label, Stack, TextArea } from '../../styles';
 import CustomSelect from '../../CustomSelect';
 import FileUpload from '../../FileUpload';
+import ErrorNotification from '../../ErrorNotification';
 
 type Props = {
-  onSubmit: (value: TodoInputValue) => Promise<void>;
+  onSubmit: (value: TodoInputValue) => Promise<JSX.Element | undefined>;
   isLoading: boolean;
   defaultValues?: TodoInputValue;
   projectId: string;
@@ -45,7 +46,7 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
 
       await onSubmit(newTodo);
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     }
   };
 

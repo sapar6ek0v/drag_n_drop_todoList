@@ -5,8 +5,8 @@ const apiProjectsTag = baseApi.enhanceEndpoints({ addTagTypes: ['Projects'] });
 
 export const projectsApi = apiProjectsTag.injectEndpoints({
   endpoints: (builder) => ({
-    getAll: builder.query<Project[], void>({
-      query: () => `projects?sortBy=createdAt&order=desc`,
+    getAll: builder.query<Project[], string>({
+      query: (value) => `projects?sortBy=createdAt&order=desc${value}`,
       providesTags: [{ type: 'Projects', id: 'LIST' }],
     }),
 

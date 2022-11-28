@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useChangeTodoStatusMutation, useGetAllTodosQuery } from '../../store/apis/todos';
-import { Todo, TodoStatuses } from '../../store/apis/todos/types';
+import { Params, Todo, TodoStatuses } from '../../store/apis/todos/types';
 import SearchForm from '../../components/SearchForm';
 import { ContentWrapper, Paper } from '../../components/styles';
 import TodoCreateModal from '../../components/Todos/TodoCreateModal';
@@ -16,7 +16,12 @@ import statuses from './statuses';
 
 const Todos: FC = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetAllTodosQuery(id as string);
+  const [search, setSearch] = useState<string>('');
+  const [params, setParams] = useState<Params>({
+    projectId: id as string
+  });
+
+  const { data, isLoading } = useGetAllTodosQuery(params);
   const [changeTodoStatus] = useChangeTodoStatusMutation();
 
   const [isOpen, setIsOpenModal] = useState<boolean>(false);
@@ -66,6 +71,11 @@ const Todos: FC = () => {
 
   }, [isLoading, data])
 
+  const handleSearchSubmit = () => {
+    setParams({ ...params, search: `&search=${search}` })
+    setSearch('');
+  };
+
   return (
     <>
       <Helmet>
@@ -74,7 +84,13 @@ const Todos: FC = () => {
         <link rel='canonical' href='/todos' />
       </Helmet>
       <ContentWrapper>
-        <SearchForm handleCreate={handleOpenModal} />
+        <SearchForm
+          search={search}
+          setSearch={setSearch}
+          handleSearchSubmit={handleSearchSubmit}
+          isLoading={isLoading}
+          handleCreate={handleOpenModal}
+        />
         <Paper>
           <Row>
             {

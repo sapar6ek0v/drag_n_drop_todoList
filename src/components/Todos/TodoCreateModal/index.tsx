@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useCreateTodoMutation } from '../../../store/apis/todos';
 import { TodoInputValue } from '../../../store/apis/todos/types';
+import ErrorNotification from '../../ErrorNotification';
 import FullPageLoader from '../../FullPageLoader';
 import Modal from '../../Modal';
 import { LoaderWrapper } from '../../styles';
@@ -20,7 +21,7 @@ const TodoCreateModal: FC<Props> = ({ isOpen, onClose, projectId }) => {
       await createTodo(value);
       onClose();
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     };
   };
 

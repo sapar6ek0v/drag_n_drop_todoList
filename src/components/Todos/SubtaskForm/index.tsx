@@ -2,10 +2,11 @@ import { FC, FormEvent, useState } from 'react';
 import { Asterisk } from 'tabler-icons-react';
 import { SubtaskInputValue } from '../../../store/apis/todos/types';
 import CustomCheckbox from '../../CustomCheckbox';
+import ErrorNotification from '../../ErrorNotification';
 import { Button, FormTitle, Input, Label, Stack } from '../../styles';
 
 type Props = {
-  onSubmit: (value: Omit<SubtaskInputValue, 'id'>) => Promise<void>;
+  onSubmit: (value: Omit<SubtaskInputValue, 'id'>) => Promise<JSX.Element | undefined>;
   isLoading: boolean;
   defaultValues?: Omit<SubtaskInputValue, 'id'>;
   projectId: string;
@@ -31,7 +32,7 @@ const SubtaskForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId,
 
       await onSubmit(newSubtask);
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     }
   };
 

@@ -1,12 +1,14 @@
 import { FC, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDeleteProjectMutation } from '../../../store/apis/projects';
 import { Project } from '../../../store/apis/projects/types';
-import { Paths } from '../../../utils/paths';
 import ButtonDelete from '../../Buttons/ButtonDelete';
 import ButtonEdit from '../../Buttons/ButtonEdit';
+import ErrorNotification from '../../ErrorNotification';
+import FullPageLoader from '../../FullPageLoader';
+import { LoaderWrapper } from '../../styles';
 import ProjectUpdateModal from '../ProjectUpdateModal';
-import { ButtonGroup, Title, Wrapper } from './styles';
+import { ButtonGroup, NavigateButton, Title, Wrapper } from './styles';
 
 type Props = {
   project: Project
@@ -22,7 +24,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
     try {
       await deleteProject(project.id);
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     };
   };
 
@@ -31,26 +33,29 @@ const ProjectCard: FC<Props> = ({ project }) => {
   };
 
   const handleNavigate = () => {
-    navigate(Paths.TODOS, { state: { id: project.id } });
+    navigate(`/${project.id}/todos`);
   };
 
   return (
     <>
-      <Link to={`/${project.id}/todos`}>
-        <Wrapper>
-          {
-            isDeleteLoading ?
-              <div>Удаление...</div> :
-              <>
-                <Title>{project.name}</Title>
-                <ButtonGroup>
+      <Wrapper>
+        {
+          isDeleteLoading ?
+            <LoaderWrapper minHeight={130}>
+              <FullPageLoader />
+            </LoaderWrapper> :
+            <>
+              <Title>{project.name}</Title>
+              <ButtonGroup justify='space-between'>
+                <NavigateButton onClick={handleNavigate}>Todos: {project.todos.length}</NavigateButton>
+                <ButtonGroup justify='flex-end'>
                   <ButtonDelete onClick={handleDeleteProject} disabled={isDeleteLoading} />
                   <ButtonEdit onClick={handleUpdateProject} />
                 </ButtonGroup>
-              </>
-          }
-        </Wrapper>
-      </Link>
+              </ButtonGroup>
+            </>
+        }
+      </Wrapper>
       {
         isUpdateProject &&
         <ProjectUpdateModal

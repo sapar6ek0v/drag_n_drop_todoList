@@ -6,12 +6,28 @@ export const ContentWrapper = styled.div`
 
 export const Paper = styled.div`
   margin-top: 90px;
+
+  @media (max-width: 480px) {
+    margin-top: 150px;
+  }
 `;
 
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 2vw;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 type StackProps = {
@@ -105,6 +121,7 @@ export const Button = styled.button`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  cursor: pointer;
 
   &:focus {
     color: #171e29;

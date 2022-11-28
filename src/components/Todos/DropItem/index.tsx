@@ -24,6 +24,7 @@ import {
   CreateTitle,
   ListStack,
 } from "./styles";
+import ErrorNotification from "../../ErrorNotification";
 
 type Props = {
   item: any;
@@ -102,7 +103,7 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
     try {
       await deleteTodo({ id: item.id, projectId: item.projectId });
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     }
   };
 

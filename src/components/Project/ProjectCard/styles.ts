@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../styles';
 
 export const Wrapper = styled.div`
   padding: 20px;
@@ -10,6 +11,8 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   transform: scale(1);
   transition: all 0.2s linear;
+  position: relative;
+
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
     transform: scale(1.12);
@@ -29,9 +32,35 @@ export const Title = styled.h3`
   margin-bottom: 20px;
 `;
 
+type ButtonGroupProps = {
+  justify: string;
+};
+
 export const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: ${(props: ButtonGroupProps) => props.justify};
   gap: 10px;
+`;
+
+export const NavigateButton = styled(Button)`
+  background: rgba(253, 189, 85, 1);
+  margin: 0;
+  padding: 5px 10px;
+  font-size: 15px;
+
+  &:focus {
+    color: #171e29;
+  }
+
+  &:hover {
+    background: #fff;
+    border-color: rgba(253, 189, 85, 1);
+    color: rgba(253, 189, 85, 1);
+  }
+
+  &:active {
+    border-color: rgba(253, 189, 85, 1);
+    color: rgba(253, 189, 85, 1);
+  }
 `;

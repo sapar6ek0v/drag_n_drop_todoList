@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Loader } from 'tabler-icons-react';
 
 export const FixedContainer = styled.div`
   position: fixed;
@@ -7,6 +8,10 @@ export const FixedContainer = styled.div`
   left: 0;
   right: 0;
   padding: 0 60px;
+
+  @media (max-width: 480px) {
+    padding: 0 25px;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -18,6 +23,10 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 `;
 
 export const InputWrapper = styled.div`
@@ -83,10 +92,29 @@ export const Button = styled.button`
       fill: #8ec5fc;
     }
   }
+
+  &:disabled {
+    background: #ee4758;
+    border-color: #ee4758;
+    color: #740a15ad;
+    cursor: not-allowed;
+  }
 `;
 
 export const CreateButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+export const IconLoader = styled(Loader)`
+  padding: 0 !important;
+  background-color: transparent !important;
+  animation: loader 1.8s linear infinite;
+
+  @keyframes loader {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;

@@ -9,4 +9,10 @@ export const Wrapper = styled.div`
     background-color: #8ec5fc;
     background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
   }
+
+  @media (max-width: 480px) {
+    min-height: 228px;
+    max-width: 228px;
+    width: 228px;
+  }
 `;

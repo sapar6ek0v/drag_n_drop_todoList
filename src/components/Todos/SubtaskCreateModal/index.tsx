@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useCreateSubtaskMutation } from '../../../store/apis/todos';
 import { SubtaskInputValue } from '../../../store/apis/todos/types';
+import ErrorNotification from '../../ErrorNotification';
 import FullPageLoader from '../../FullPageLoader';
 import Modal from '../../Modal';
 import { LoaderWrapper } from '../../styles';
@@ -21,7 +22,7 @@ const SubtaskCreateModal: FC<Props> = ({ isOpen, onClose, projectId, todoId }) =
       await createSubtask(value);
       onClose();
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     };
   };
 

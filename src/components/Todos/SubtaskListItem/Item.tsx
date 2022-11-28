@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { useDeleteSubtaskMutation, useUpdateSubtaskMutation } from '../../../store/apis/todos';
 import { Subtask, SubtaskInputValue } from '../../../store/apis/todos/types';
 import CustomCheckbox from '../../CustomCheckbox';
+import ErrorNotification from '../../ErrorNotification';
 import SubtaskUpdateModal from '../SubtaskUpdateModal';
 import { ItemWrapper, ItemTitle, Group, DeleteBtn } from './styles';
 
@@ -26,7 +27,7 @@ const Item: FC<Props> = ({ subtask, projectId }) => {
 
       await updateSubtask(updatedSubtask);
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     }
   };
 
@@ -42,7 +43,7 @@ const Item: FC<Props> = ({ subtask, projectId }) => {
     try {
       await deleteSubtask({ id, todoId, projectId });
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     }
   };
 

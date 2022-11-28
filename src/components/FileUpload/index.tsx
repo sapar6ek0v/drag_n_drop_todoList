@@ -2,6 +2,7 @@ import { Dispatch, FC, SetStateAction, ChangeEvent } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { useUploadMutation } from '../../store/apis/cloudinary';
 import { ImageType } from '../../store/apis/cloudinary/types';
+import ErrorNotification from '../ErrorNotification';
 import FileItem from './FileItem';
 import {
   InfoTitle,
@@ -37,7 +38,7 @@ const FileUpload: FC<Props> = ({ files, setFiles }) => {
         { public_id: response.public_id, url: response.url, original_filename: response.original_filename }
       ]);
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     }
   };
 

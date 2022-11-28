@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import { TrashX } from 'tabler-icons-react';
 import { StyledDeleteBtn } from '../styles';
 
@@ -8,8 +8,14 @@ type Props = {
 };
 
 const ButtonDelete: FC<Props> = ({ onClick, disabled }) => {
+
+  const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onClick();
+  };
+
   return (
-    <StyledDeleteBtn onClick={onClick} disabled={disabled}>
+    <StyledDeleteBtn onClick={handleOnClick} disabled={disabled}>
       <TrashX size={30} strokeWidth={1.5} color={'#ee4758'} />
     </StyledDeleteBtn>
   );

@@ -75,3 +75,8 @@ export type SingleSubtaskValue = {
   todoId: string;
   projectId: string;
 };
+
+export type Params = {
+  projectId: string;
+  search?: string;
+};

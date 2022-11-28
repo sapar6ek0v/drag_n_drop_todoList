@@ -1,6 +1,7 @@
 import { FC, useMemo } from 'react';
 import { useGetSingleSubtaskQuery, useUpdateSubtaskMutation } from '../../../store/apis/todos';
 import { SubtaskInputValue } from '../../../store/apis/todos/types';
+import ErrorNotification from '../../ErrorNotification';
 import FullPageLoader from '../../FullPageLoader';
 import Modal from '../../Modal';
 import { LoaderWrapper } from '../../styles';
@@ -23,7 +24,7 @@ const SubtaskUpdateModal: FC<Props> = ({ isOpen, onClose, projectId, todoId, sub
       await updateSubtask({ id: subtaskId, ...value });
       onClose();
     } catch (error) {
-      console.log(error);
+      return <ErrorNotification message={error} />
     };
   };
 

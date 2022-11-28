@@ -6,6 +6,7 @@ export const Row = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   gap: 40px;
+  isolation: isolate;
 `;
 
 export const Column = styled.div`

@@ -1,14 +1,17 @@
 import { FC, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useGetAllQuery } from '../../store/apis/projects';
+import SearchForm from '../../components/SearchForm';
 import FullPageLoader from '../../components/FullPageLoader';
 import ProjectCard from '../../components/Project/ProjectCard';
 import ProjectCreateModal from '../../components/Project/ProjectCreateModal';
-import SearchForm from '../../components/SearchForm';
 import { ContentWrapper, Grid, Paper } from '../../components/styles';
-import { useGetAllQuery } from '../../store/apis/projects';
 
 const Projects: FC = () => {
-  const { data: projects, isLoading } = useGetAllQuery();
+  const [search, setSearch] = useState<string>('');
+  const [params, setParams] = useState<string>('');
+
+  const { data: projects, isLoading } = useGetAllQuery(params);
 
   const [isOpen, setIsOpenModal] = useState<boolean>(false);
 
@@ -20,6 +23,11 @@ const Projects: FC = () => {
     setIsOpenModal(false);
   };
 
+  const handleSearchSubmit = () => {
+    setParams(`&name=${search}`);
+    setSearch('');
+  };
+
   return (
     <>
       <Helmet>
@@ -28,7 +36,13 @@ const Projects: FC = () => {
         <link rel='canonical' href='/projects' />
       </Helmet>
       <ContentWrapper>
-        <SearchForm handleCreate={handleOpenModal} />
+        <SearchForm
+          search={search}
+          setSearch={setSearch}
+          handleSearchSubmit={handleSearchSubmit}
+          isLoading={isLoading}
+          handleCreate={handleOpenModal}
+        />
         <Paper>
           <Grid>
             {
