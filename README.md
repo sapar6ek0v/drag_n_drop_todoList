@@ -9,7 +9,7 @@ You can see demo in browser [url](https://dragndroptodolist.vercel.app/)
 ## Installation
 
 ```bash
-npm install
+yarn install
 ```
 
 ## Running the app
