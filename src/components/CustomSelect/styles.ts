@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
   display: inline-block;
   background-color: #fff;
   box-shadow: 0 0 2px rgb(204, 204, 204);
@@ -42,6 +43,7 @@ export const Menu = styled.ul`
   position: absolute;
   background-color: #fff;
   width: 100%;
+  box-sizing: border-box;
   left: 0;
   margin-top: 1px;
   box-shadow: 0 1px 2px rgb(204, 204, 204);

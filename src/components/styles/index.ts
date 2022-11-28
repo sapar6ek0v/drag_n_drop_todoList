@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const ContentWrapper = styled.div`
-  /* position: relative; */
   padding: 50px 0;
 `;
 
@@ -47,7 +46,8 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  width: 95%;
+  width: 100%;
+  box-sizing: border-box;
   font-size: 14px;
   line-height: 20px;
   color: rgb(0, 0, 0);
@@ -67,8 +67,9 @@ export const Input = styled.input`
 `;
 
 export const TextArea = styled.textarea`
-  width: 94%;
+  width: 100%;
   height: 100px;
+  box-sizing: border-box;
   max-height: 100px;
   overflow: auto;
   font-size: 14px;

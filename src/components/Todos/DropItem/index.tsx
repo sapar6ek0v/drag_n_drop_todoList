@@ -3,7 +3,11 @@ import dayjs from "dayjs";
 import { useDrag, useDrop } from "react-dnd";
 import { Number } from "tabler-icons-react";
 import { ITEM_TYPE } from "../../../pages/todos/types";
+import { useDeleteTodoMutation } from "../../../store/apis/todos";
 import { TodoStatus } from "../../../store/apis/todos/types";
+import ButtonDelete from "../../Buttons/ButtonDelete";
+import ButtonEdit from "../../Buttons/ButtonEdit";
+import FullPageLoader from "../../FullPageLoader";
 import TodoUpdateModal from "../TodoUpdateModal";
 import {
   DateView,
@@ -16,8 +20,6 @@ import {
   Wrapper,
   TextGroup,
 } from "./styles";
-import ButtonDelete from "../../Buttons/ButtonDelete";
-import ButtonEdit from "../../Buttons/ButtonEdit";
 
 type Props = {
   item: any;
@@ -29,6 +31,9 @@ type Props = {
 const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+
+  const [deleteTodo, { isLoading: isDeleteLoading }] = useDeleteTodoMutation();
 
   const [, drop] = useDrop({
     accept: ITEM_TYPE,
@@ -80,12 +85,20 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
 
   drag(drop(ref));
 
-  const handleEdit = () => {
-
+  const handleOpenEditModal = () => {
+    setIsUpdateModalOpen(true);
   };
 
-  const handleDelete = () => {
+  const handleCloseEditModal = () => {
+    setIsUpdateModalOpen(false);
+  };
 
+  const handleDelete = async () => {
+    try {
+      await deleteTodo({ id: item.id, projectId: item.projectId });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -95,30 +108,37 @@ const DropItem: FC<Props> = ({ item, index, moveItem, status }) => {
         onClick={handleOpenModal}
         className={isDragging ? 'isDragging' : ''}
       >
-        <Group justify='space-between'>
-          <Group gap={10}>
-            <ViewPriority className={item.priority}>{item.priority}</ViewPriority>
-            <StatusView bg={status.color}>{item.status}</StatusView>
-            <div>{status.icon}</div>
-          </Group>
-          <NumberView>
-            <Number size={20} strokeWidth={2.5} color={'#938e8e'} />
-            <span>{item.number}</span>
-          </NumberView>
-        </Group>
-        <TextGroup>
-          <Header>{item.header}</Header>
-          <Description>{item.description}</Description>
-        </TextGroup>
-        <Group justify='space-between'>
-          <DateView>{dayjs(item.expirationDate).format('MMM D')}</DateView>
-          <Group gap={10}>
-            <ButtonEdit onClick={handleEdit} />
-            <ButtonDelete onClick={handleDelete} />
-          </Group>
-        </Group>
+        {
+          isDeleteLoading ?
+            <FullPageLoader /> :
+            <>
+              <Group justify='space-between' >
+                <Group gap={10}>
+                  <ViewPriority className={item.priority}>{item.priority}</ViewPriority>
+                  <StatusView bg={status.color}>{item.status}</StatusView>
+                  <div>{status.icon}</div>
+                </Group>
+                <NumberView>
+                  <Number size={20} strokeWidth={2.5} color={'#938e8e'} />
+                  <span>{item.number}</span>
+                </NumberView>
+              </Group>
+              <TextGroup>
+                <Header>{item.header}</Header>
+                <Description>{item.description}</Description>
+              </TextGroup>
+              <Group justify='space-between'>
+                <DateView>{dayjs(item.expirationDate).format('MMM D')}</DateView>
+                <Group gap={10} onClick={(e) => e.stopPropagation()}>
+                  <ButtonEdit onClick={handleOpenEditModal} />
+                  <ButtonDelete onClick={handleDelete} />
+                </Group>
+              </Group>
+            </>
+        }
       </Wrapper>
       {isOpenModal && <TodoUpdateModal isOpen={isOpenModal} onClose={handleCloseModal} />}
+      {isUpdateModalOpen && <TodoUpdateModal isOpen={isUpdateModalOpen} onClose={handleCloseEditModal} />}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { useGetAllTodosQuery } from '../../store/apis/todos';
+import { useChangeTodoStatusMutation, useGetAllTodosQuery } from '../../store/apis/todos';
 import { Todo, TodoStatuses } from '../../store/apis/todos/types';
 import SearchForm from '../../components/SearchForm';
 import { ContentWrapper, Paper } from '../../components/styles';
@@ -17,6 +17,7 @@ import statuses from './statuses';
 const Todos: FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetAllTodosQuery(id as string);
+  const [changeTodoStatus] = useChangeTodoStatusMutation();
 
   const [isOpen, setIsOpenModal] = useState<boolean>(false);
   const [todos, setTodos] = useState(data);
@@ -29,9 +30,8 @@ const Todos: FC = () => {
     setIsOpenModal(false);
   };
 
-  const onDrop = (item: Todo, monitor: any, status: TodoStatuses) => {
+  const onDrop = async (item: Todo, monitor: any, status: TodoStatuses) => {
     if (todos) {
-      // const mapping = statuses.find((todoStatus) => todoStatus.status === status);
 
       setTodos(prevState => {
         if (prevState) {
@@ -41,6 +41,8 @@ const Todos: FC = () => {
           return [...newItems];
         }
       });
+
+      await changeTodoStatus({ id: item.id, projectId: item.projectId, status: status });
     }
   };
 
@@ -61,8 +63,8 @@ const Todos: FC = () => {
     if (!isLoading) {
       setTodos(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading])
+
+  }, [isLoading, data])
 
   return (
     <>

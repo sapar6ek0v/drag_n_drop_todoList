@@ -16,10 +16,15 @@ export const TitleWrapper = styled.div`
   gap: 8px;
 `;
 
-export const Title = styled.div`
+export const LinkTitle = styled.a`
   font-size: 14px;
   font-weight: 500;
-  color: #fff;
+  color: rgb(152 31 158);
+  transition: all 0.4s linear;
+
+  &:hover {
+    color: rgb(44 41 147);
+  }
 `;
 
 export const DeleteIcon = styled(TrashX)`

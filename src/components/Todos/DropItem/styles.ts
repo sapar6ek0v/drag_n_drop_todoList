@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 15px;
   transition: all 0.4s linear;
+  position: relative;
 
   &:hover {
     cursor: grab;
@@ -101,7 +102,7 @@ export const ViewPriority = styled.div`
   padding: 4px 8px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 
-  &.Hight {
+  &.High {
     background: #ff1e00c2;
     color: #880404fa;
   }

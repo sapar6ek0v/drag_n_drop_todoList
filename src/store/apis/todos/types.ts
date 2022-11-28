@@ -1,3 +1,5 @@
+import { ImageType } from '../cloudinary/types';
+
 export type Todo = {
   id: string;
   projectId: string;
@@ -10,6 +12,7 @@ export type Todo = {
   expirationDate: number | Date;
   workingTime: Date;
   createdAt: Date;
+  subtasks: Subtask[];
 };
 
 export enum TodoStatuses {
@@ -19,17 +22,17 @@ export enum TodoStatuses {
 }
 
 export enum TodoPriorities {
-  HIGHT = 'Hight',
+  HIGH = 'High',
   NORMAL = 'Normal',
 }
 
 export type TodoInputValue = {
   projectId: string;
-  number: string;
+  number: number;
   header: string;
   description: string;
   priority: string;
-  // files: string;
+  files: ImageType[];
   status: string;
   expirationDate: number | Date;
 };
@@ -38,4 +41,31 @@ export type TodoStatus = {
   status: TodoStatuses;
   icon: string;
   color: string;
+};
+
+export type TodoChangeStatusValue = {
+  id: string;
+  projectId: string;
+  status: TodoStatuses;
+};
+
+export type TodoDeleteValue = {
+  id: string;
+  projectId: string;
+};
+
+export type Subtask = {
+  id: string;
+  todoId: string;
+  todo: string;
+  isCompleted: boolean;
+  createdAt: number | Date;
+};
+
+export type SubtaskInputValue = {
+  id: string;
+  todoId: string;
+  projectId: string;
+  todo: string;
+  isCompleted: boolean;
 };

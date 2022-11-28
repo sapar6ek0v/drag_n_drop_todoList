@@ -1,13 +1,16 @@
 import { FC } from 'react';
+import Modal from '../../Modal';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-const TodoUpdateModal: FC<Props> = () => {
+const TodoUpdateModal: FC<Props> = ({ isOpen, onClose }) => {
   return (
-    <div>TodoUpdateModal</div>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      TodoUpdateModal
+    </Modal>
   );
 };
 

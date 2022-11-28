@@ -2,24 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
-import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { baseApi } from './store';
 import 'bear-react-datepicker/dist/index.css';
+import { store } from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <HelmetProvider>
-        <ApiProvider api={baseApi}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <HelmetProvider>
           <App />
-        </ApiProvider>
-      </HelmetProvider>
-    </BrowserRouter>
+        </HelmetProvider>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

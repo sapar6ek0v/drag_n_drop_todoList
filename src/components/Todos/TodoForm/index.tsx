@@ -1,7 +1,8 @@
 import { FC, FormEvent, useState } from 'react';
 import { Asterisk } from 'tabler-icons-react';
 import dayjs from 'dayjs';
-import { TodoInputValue } from '../../../store/apis/todos/types';
+import { ImageType } from '../../../store/apis/cloudinary/types';
+import { TodoInputValue, TodoPriorities, TodoStatuses } from '../../../store/apis/todos/types';
 import CustomDatePicker from '../../CustomDatePicker';
 import { Button, FormTitle, Input, Label, Stack, TextArea } from '../../styles';
 import CustomSelect from '../../CustomSelect';
@@ -17,14 +18,14 @@ type Props = {
 const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) => {
   const today = dayjs(new Date()).format('YYYY/MM/DD');
 
-  const [todoNumber, setTodoNumber] = useState<string>('');
+  const [todoNumber, setTodoNumber] = useState<number>(0);
   const [header, setHeader] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [expirationDate, setExpirationDate] = useState(today);
   // const [workingTime, setWorkingTime] = useState();
   const [priority, setPriority] = useState<string>('');
   const [status, setStatus] = useState<string>('Queue');
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<ImageType[]>([]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -37,13 +38,15 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
       header,
       description,
       priority,
-      // files,
+      files,
       status,
       expirationDate: new Date(expirationDate).getTime(),
     };
 
     onSubmit(newTodo);
   };
+
+  const disabled = !header || isLoading || !todoNumber || !priority || !status || !expirationDate;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -57,7 +60,7 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
           </Label>
           <Input
             value={todoNumber}
-            onChange={(event) => setTodoNumber(event.target.value)}
+            onChange={(event) => setTodoNumber(parseInt(event.target.value))}
             type='number'
             placeholder='Номер Todo'
             id='number'
@@ -79,7 +82,7 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
         </div>
 
         <CustomSelect
-          data={['Hign', 'Normal']}
+          data={Object.values(TodoPriorities)}
           value={priority}
           setValue={setPriority}
           placeholder='Выберите приоритет'
@@ -88,7 +91,7 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
         />
 
         <CustomSelect
-          data={['Queue', 'Development', 'Done']}
+          data={Object.values(TodoStatuses)}
           value={status}
           setValue={setStatus}
           placeholder='Выберите статус'
@@ -117,7 +120,7 @@ const TodoForm: FC<Props> = ({ onSubmit, isLoading, defaultValues, projectId }) 
           />
         </div>
 
-        <Button type='submit' disabled={!header || isLoading}>
+        <Button type='submit' disabled={disabled}>
           {defaultValues ? 'Сохранить' : 'Создать'}
         </Button>
       </Stack>

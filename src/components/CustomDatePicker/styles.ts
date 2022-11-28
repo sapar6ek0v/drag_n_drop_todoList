@@ -12,7 +12,8 @@ export const StyledDatePicker = styled(Datepicker)`
 `;
 
 export const DatePickerInput = styled.input`
-  width: 95%;
+  width: 100%;
+  box-sizing: border-box;
   font-size: 14px;
   color: rgb(0, 0, 0);
   font-weight: 500;

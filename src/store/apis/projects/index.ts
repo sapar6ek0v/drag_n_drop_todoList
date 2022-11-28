@@ -1,4 +1,4 @@
-import { baseApi } from '../..';
+import { baseApi } from '..';
 import { Project, ProjectInputValue, ProjectUpdateInputValue } from './types';
 
 const apiProjectsTag = baseApi.enhanceEndpoints({ addTagTypes: ['Projects'] });

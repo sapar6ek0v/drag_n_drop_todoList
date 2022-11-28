@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Loader } from 'tabler-icons-react';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -10,6 +11,7 @@ export const Wrapper = styled.div`
   border: 3px dashed #cbd5e0;
   background-color: #edf2f7;
   min-height: 135px;
+  box-sizing: border-box;
 `;
 
 export const InputWrapper = styled.div`
@@ -31,6 +33,7 @@ export const Button = styled.button`
   top: 0px;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -96,4 +99,16 @@ export const FileListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+export const IconLoader = styled(Loader)`
+  padding: 0 !important;
+  background-color: transparent !important;
+  animation: loader 1.8s linear infinite;
+
+  @keyframes loader {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
