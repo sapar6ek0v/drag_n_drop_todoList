@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Demo
 
-You can see demo in browser [url](https://drag_n_drop_todo_list.vercel.app/)
+You can see demo in browser [url](https://dragndroptodolist.vercel.app/)
 
 ## Installation
 
